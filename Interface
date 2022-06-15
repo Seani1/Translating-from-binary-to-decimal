@@ -1,0 +1,179 @@
+#include <iostream>
+#include <conio.h>
+#include <windows.h>
+#include "BD.h"
+
+//21.04.22 16:43, 30.05.22 10:38
+
+Decimal dec; Binary dec1; Translate t; void n1(), n2(), n3(), n1_(), n2_();
+const char decimal[8] = "Decimal", binary[7] = "Binary", translate[11] = "Translate";
+const char decimal_[8] = "DECIMAL", binary_[7] = "BINARY", translate_[11] = "TRANSLATE";
+short x = 27, y = 2, colL = 0, colR = 0, colL1 = 0, colR1 = 0; bool Over = false;
+COORD p = { x,y }; HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
+int main()
+{
+    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+    std::cout << "       Decimal     TRANSLATE     Binary" << std::endl;
+
+    SetConsoleCursorPosition(hConsole, p);
+
+    do {
+        if (_kbhit()) {
+            switch (_getch()) {
+
+            case 75: //Наліво
+                if (colL == 0) { n1(); colL++; }
+                else if (colL == 1) { n2(); colL++; }
+                else if (colL == 2) { n3(); colL -= 2; }
+                break;
+
+            case 77: //Направо
+                if (colR == 0) { n2(); colR++; }
+                else if (colR == 1) { n1(); colR++; }
+                else if (colR == 2) { n3(); colR -= 2; }
+                break;
+            case '=':
+                    Over = true;
+                    break;
+            case 13: //Enter
+                if (x == 13 && y == 2) {
+                    system("cls");
+                    p = { 0,0 }; SetConsoleCursorPosition(hConsole, p);
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "          Enter your decimal number           " << std::endl;
+                    dec.OutputOnDisplay();
+                    x = 13, y = 2;
+                    std::cin.get(); std::cin.get(); system("cls");
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "       DECIMAL     Translate     Binary" << std::endl;
+                }
+                else if (x == 38 && y == 2) {
+                    system("cls");
+                    p = { 0,0 }; SetConsoleCursorPosition(hConsole, p);
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "       Enter how many numbers you want           " << std::endl;
+                    dec1.OutputOnDisplay();
+                    x = 38, y = 2;
+                    std::cin.get(); std::cin.get(); system("cls");
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "       Decimal     Translate     BINARY" << std::endl;
+                }
+                else if (x == 27 && y == 2) {
+                    system("cls");
+                    p = { 0,0 }; SetConsoleCursorPosition(hConsole, p);
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~IN~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "           DECIMAL         Binary           " << std::endl;
+                    x = 17, y = 2;
+                    while (!Over) {
+                        if (_kbhit()) {
+                            switch (_getch()) {
+                            case 75:
+                                if (colL1 == 0) { n1_(); colL1 = 1; }
+                                else if (colL1 == 1) { n2_(); colL1 = 0; }
+                                break;
+                            case 77:
+                                if (colR1 == 0) { n2_(); colR1 = 1; }
+                                else if (colR1 == 1) { n1_(); colR1 = 0; }
+                                break;
+                            case 13:
+                                if (x == 32 && y == 2) {
+                                    system("cls");
+                                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                                    std::cout << "          Enter your decimal number           " << std::endl;
+                                    t.B(); Over = true;
+                                }
+                                else if (x == 17 && y == 2) {
+                                    system("cls"); 
+                                    p = { 0,0 }; SetConsoleCursorPosition(hConsole, p);
+                                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                                    std::cout << "       Enter how many numbers you want           " << std::endl;
+                                    t.D(); Over = true;
+                                }
+                            }
+                        }
+                    }
+                    Over = false;
+                    x = 27, y = 2;
+                    std::cin.get(); std::cin.get(); system("cls");
+                    std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+                    std::cout << "       Decimal     TRANSLATE     Binary" << std::endl;
+                }
+            }
+        }
+    } while (!Over);
+}
+
+
+void n1() {
+    for (short i = 33, j = 0; i <= 38 && j < 6; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << binary[j];
+    }
+    for (short i = 19, j = 0; i <= 27 && j < 11; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << translate[j];
+    }
+    for (short i = 7, j = 0; i <= 13 && j < 8; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << decimal_[j];
+    }
+    x = 13; y = 2;
+}
+
+void n2() {
+    for (short i = 33, j = 0; i <= 38 && j < 6; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << binary_[j];
+    }
+    for (short i = 19, j = 0; i <= 27 && j < 11; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << translate[j];
+    }
+    for (short i = 7, j = 0; i <= 13 && j < 8; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << decimal[j];
+    }
+    x = 38; y = 2;
+}
+
+void n3() {
+    for (short i = 33, j = 0; i <= 38 && j < 6; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << binary[j];
+    }
+    for (short i = 19, j = 0; i <= 27 && j < 11; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << translate_[j];
+    }
+    for (short i = 7, j = 0; i <= 13 && j < 8; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << decimal[j];
+    }
+    x = 27; y = 2;
+}
+
+void n1_() {
+    for (short i = 27, j = 0; i <= 32 && j < 6; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << binary[j];
+    }
+    for (short i = 11, j = 0; i <= 17 && j < 8; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << decimal_[j];
+    }
+    x = 17; y = 2;
+}
+
+void n2_() {
+    for (short i = 27, j = 0; i <= 32 && j < 6; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << binary_[j];
+    }
+    for (short i = 11, j = 0; i <= 17 && j < 8; i++, j++) {
+        p = { i,2 }; SetConsoleCursorPosition(hConsole, p);
+        std::cout << decimal[j];
+    }
+    x = 32; y = 2;
+}
