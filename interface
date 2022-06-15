@@ -1,0 +1,133 @@
+#ifndef SetForWorkingWithBinaryAndDecimalNumbers
+#define SetForWorkingWithBinaryAndDecimalNumbers
+
+#include <iostream>
+
+//Степені
+unsigned long long de(unsigned long long n, int s) {
+
+    unsigned long long n_ = n;
+
+    if (s == 0) { n_ = 1; }
+    else { for (unsigned short i = 1; i < s; i++) { n_ *= n; } }
+    return n_;
+}
+
+//Операції, пов'язані із десятковими числами
+class Decimal {
+protected:         
+    short a[20] = { 0 };
+    unsigned long long number;
+    short b = 19;
+public:
+
+    //Роздільник десяткових чисел
+    void DecimalSeparator() {
+        std::cin >> number;
+        
+        for (short i = 0; i < 19; i++) {
+            a[i] = (number % de(10, b)) / de(10, b - 1);
+            b--;
+        }
+    }
+
+    //Виведення на екран
+    void OutputOnDisplay() {
+
+        DecimalSeparator();
+
+        std::cout << "\n                   Result:\n\n   ";
+        for (int i = 0; i < 19; i++) {
+            std::cout << a[i] << " ";
+        }
+    }
+};
+
+//Операції, пов'язані із двійковими числами
+class Binary {
+protected:
+    char n[64] = { 0 };
+    short j = 0;
+public:
+
+    //Роздільник двійкових чисел
+    void BinarySeparator() {
+        
+        std::cin >> j;
+        system("cls");
+
+        for (int i = 0; i < j; i++) {
+            std::cin >> n[i];
+        }
+        
+    }
+
+    //Виведення на екран
+    void OutputOnDisplay() {
+
+        std::cin >> j;
+        system("cls");
+        std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+        std::cout << "          Enter your binary number           " << std::endl;
+
+        for (int i = 0; i < j; i++) {
+            std::cin >> n[i];
+            std::cout << n[i] << " ";
+            n[i] = { 0 };
+        }
+    }
+};
+
+//Перекладач
+class Translate : Binary, Decimal {  
+public:
+
+    //В двійкові числа із десяткових 
+    void B() {
+
+        std::cin >> number;
+
+        std::cout << "\n                   Result:\n";
+        for (int i = 0; i < 64; i++) {
+            n[i] = number % 2;
+            number = number / 2;
+        }
+        for (int i = 63; i >= 0; i--) {
+            if (n[i] == 0) {
+                std::cout << 0;
+            }
+            else { std::cout << 1; }
+            n[i] = { 0 };
+        }
+    }
+
+    //В десяткові числа із двійкових 
+    void D() {
+
+        std::cin >> j;
+        system("cls");
+
+        std::cout << "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+        std::cout << "          Enter your binary number           " << std::endl;
+        for (int i = 0; i < j; i++) {
+            std::cin >> n[i]; 
+        }
+
+        for (int i = 0; i < j; i++) {
+            if (n[i] == 49) {
+                n[i] = 1;
+            }
+            else if (n[i] == 48) {
+                n[i] = 0;
+            }
+            number = (number * 2) + n[i];
+            n[i] = { 0 };
+        }
+
+        std::cout << "\n                   Result:\n";
+        std::cout << number << std::endl;
+        number = 0;
+    }
+};
+
+#endif
